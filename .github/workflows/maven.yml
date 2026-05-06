@@ -34,4 +34,4 @@ jobs:
         with:
           name: calculator-jar
           # Đường dẫn tìm file .jar sau khi Maven chạy xong lệnh package
-          path: target/*.jar
+          path: target/try/*.jar
