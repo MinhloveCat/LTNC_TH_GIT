@@ -1,0 +1,37 @@
+name: Java CI with Maven
+
+# Kích hoạt khi có push hoặc pull_request
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code từ repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Cài đặt môi trường Java
+      - name: Set up JDK 25
+        uses: actions/setup-java@v3
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven
+
+      # 3. Thực thi vòng đời build của Maven (chạy test và package)
+      - name: Build with Maven (Test and Package)
+        run: mvn clean test package
+
+      # 4. Lưu trữ file .jar sau khi build thành công
+      - name: Upload JAR Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: calculator-jar
+          # Đường dẫn tìm file .jar sau khi Maven chạy xong lệnh package
+          path: target/*.jar
